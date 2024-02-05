@@ -72,7 +72,7 @@ class TwoFactorEmailBundleTest extends TestCase
         $this->assertArrayHasKey(0, $tag);
         $this->assertIsArray($tag[0]);
         $this->assertArrayHasKey('alias', $tag[0]);
-        $this->assertEquals('email', $tag[0]['alias']);
+        $this->assertEquals('db1337email', $tag[0]['alias']);
     }
 
     #[Test]
