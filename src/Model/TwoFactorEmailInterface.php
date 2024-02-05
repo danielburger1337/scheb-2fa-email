@@ -22,7 +22,7 @@ interface TwoFactorEmailInterface
     /**
      * Set the authentication code.
      */
-    public function setEmailAuthCode(string|null $authCode): void;
+    public function setEmailAuthCode(string $authCode): void;
 
     /**
      * Timestamp of when the authentication code will expire.
