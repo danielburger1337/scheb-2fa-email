@@ -1,3 +1,7 @@
+[![Coding Styles with PHPCSFixer](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpcsfixer.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpcsfixer.yml)
+[![Static Analysis with PHPStan](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpstan.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpstan.yml)
+[![Unit Tests with PHPUnit](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpunit.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpunit.yml)
+
 # danielburger1337/2fa-email
 
 This bundle is an extension of [scheb/2fa-bundle](https://github.com/scheb/2fa-bundle) that provides a more advanced email two-factor provider than the default [scheb/2fa-email](https://github.com/scheb/2fa-email) provider.
