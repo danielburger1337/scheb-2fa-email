@@ -14,7 +14,7 @@ return static function (DefinitionConfigurator $definition): void {
                 ->end()
 
                 ->integerNode('digits')
-                    ->info('The number of digits the generated auth code will have. This option has no effect when the ".code_generator" option is used.')
+                    ->info('The number of digits the generated auth code will have.')
                     ->min(1)
                     ->defaultValue(6)
                 ->end()

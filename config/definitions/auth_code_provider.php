@@ -22,7 +22,7 @@ return static function (DefinitionConfigurator $definition): void {
                             try {
                                 new \DateInterval($value);
                             } catch (\Throwable) {
-                                throw new InvalidConfigurationException('"expires_after" is not a valid \DateInterval value.');
+                                throw new InvalidConfigurationException('"two_factor_email.expires_after" is not a valid \DateInterval value.');
                             }
 
                             return $value;
