@@ -14,6 +14,6 @@ return static function (ContainerConfigurator $container): void {
                 '$formRenderer' => abstract_arg('form renderer'),
                 '$clock' => service(ClockInterface::class),
             ])
-            ->tag('scheb_two_factor.provider', ['alias' => 'email'])
+            ->tag('scheb_two_factor.provider', ['alias' => 'db1337email'])
     ;
 };
