@@ -32,5 +32,5 @@ interface TwoFactorEmailInterface
     /**
      * Set the timestamp of when the authentication code will expire.
      */
-    public function setEmailAuthCodeExpiresAt(\DateTimeImmutable|null $expiresAt): void;
+    public function setEmailAuthCodeExpiresAt(\DateTimeImmutable $expiresAt): void;
 }
