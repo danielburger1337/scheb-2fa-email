@@ -1,0 +1,45 @@
+{
+    "name": "danielburger1337/2fa-email",
+    "description": "Extends scheb/2fa-bundle with two-factor authentication via email",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Burger",
+            "homepage": "https://github.com/danielburger1337"
+        }
+    ],
+    "homepage": "https://github.com/danielburger1337/scheb-2fa-email",
+    "keywords": [
+        "2fa",
+        "two-factor",
+        "two-step",
+        "authentication",
+        "symfony",
+        "email",
+        "scheb-2fa"
+    ],
+    "require": {
+        "php": "^8.2",
+        "scheb/2fa-bundle": "^7.2",
+        "symfony/framework-bundle": "^7.0",
+        "symfony/clock": "^7.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.23",
+        "phpunit/phpunit": "^10.5",
+        "phpstan/phpstan": "^1.10",
+        "symfony/mailer": "^7.0",
+        "symfony/yaml": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "danielburger1337\\SchebTwoFactorBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "danielburger1337\\SchebTwoFactorBundle\\Tests\\": "tests/"
+        }
+    }
+}
