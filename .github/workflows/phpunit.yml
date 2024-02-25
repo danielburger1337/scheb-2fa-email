@@ -1,4 +1,4 @@
-name: Unit Tests with PHPUnit
+name: PHPUnit
 
 on:
     pull_request:
@@ -13,7 +13,7 @@ jobs:
                 operating-system: [ubuntu-latest]
                 php-versions: ["8.2", "8.3"]
 
-        name: PHPUnit ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+        name: PHPUnit with ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
 
         steps:
             - uses: actions/checkout@v3
