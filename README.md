@@ -1,6 +1,8 @@
-[![Coding Styles with PHPCSFixer](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpcsfixer.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpcsfixer.yml)
-[![Static Analysis with PHPStan](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpstan.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpstan.yml)
-[![Unit Tests with PHPUnit](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpunit.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpunit.yml)
+[![PHPCSFixer](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpcsfixer.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpcsfixer.yml)
+[![PHPStan](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpstan.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpstan.yml)
+[![PHPUnit](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpunit.yml/badge.svg)](https://github.com/danielburger1337/scheb-2fa-email/actions/workflows/phpunit.yml)
+![Packagist Version](https://img.shields.io/packagist/v/danielburger1337/2fa-email?link=https%3A%2F%2Fpackagist.org%2Fpackages%2Fdanielburger1337%2F2fa-email)
+![Packagist Downloads](https://img.shields.io/packagist/dt/danielburger1337/2fa-email?link=https%3A%2F%2Fpackagist.org%2Fpackages%2Fdanielburger1337%2F2fa-email)
 
 # danielburger1337/2fa-email
 
