@@ -11,23 +11,23 @@ jobs:
         strategy:
             matrix:
                 include:
+                    - php-version: "8.2"
+                      dependency-version: "--prefer-lowest"
+                      symfony-version: "6.4"
+
                     - php-version: "8.3"
                       dependency-version: "--prefer-lowest"
                       symfony-version: "6.4"
 
                     - php-version: "8.2"
-                      dependency-version: "--prefer-lowest"
-                      symfony-version: "7.x"
-
-                    - php-version: "8.2"
                       dependency-version: ""
-                      symfony-version: "6.4"
+                      symfony-version: "7.x"
 
                     - php-version: "8.3"
                       dependency-version: ""
                       symfony-version: "7.x"
 
-        name: PHPUnit with ${{ matrix.php-version }} (Symfony ${{ matrix.symfony-version }})
+        name: PHPUnit with PHP ${{ matrix.php-version }} (Symfony ${{ matrix.symfony-version }})
 
         steps:
             - uses: actions/checkout@v4
