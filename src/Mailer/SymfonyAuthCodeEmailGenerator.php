@@ -8,7 +8,7 @@ use Symfony\Component\Mime\Email;
 
 final class SymfonyAuthCodeEmailGenerator implements AuthCodeEmailGeneratorInterface
 {
-    private Address|string|null $senderAddress;
+    private Address|string|null $senderAddress = null;
 
     public function __construct(
         private readonly string $subject,
