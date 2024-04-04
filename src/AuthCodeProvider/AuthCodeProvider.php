@@ -14,7 +14,7 @@ final class AuthCodeProvider implements AuthCodeProviderInterface
         private readonly AuthCodeGeneratorInterface $authCodeGenerator,
         private readonly AuthCodeMailerInterface $mailer,
         private readonly ClockInterface $clock,
-        private readonly string|null $expiresAfter = null,
+        private readonly ?string $expiresAfter = null,
     ) {
     }
 

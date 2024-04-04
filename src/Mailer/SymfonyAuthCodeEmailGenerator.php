@@ -13,7 +13,7 @@ final class SymfonyAuthCodeEmailGenerator implements AuthCodeEmailGeneratorInter
     public function __construct(
         private readonly string $subject,
         private readonly string $textBody,
-        string|null $senderEmail,
+        ?string $senderEmail,
         ?string $senderName = null,
     ) {
         if (null !== $senderEmail && null !== $senderName) {

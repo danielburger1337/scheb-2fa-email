@@ -17,7 +17,7 @@ interface TwoFactorEmailInterface
     /**
      * The authentication code.
      */
-    public function getEmailAuthCode(): string|null;
+    public function getEmailAuthCode(): ?string;
 
     /**
      * Set the authentication code.
@@ -27,7 +27,7 @@ interface TwoFactorEmailInterface
     /**
      * Timestamp of when the authentication code will expire.
      */
-    public function getEmailAuthCodeExpiresAt(): \DateTimeImmutable|null;
+    public function getEmailAuthCodeExpiresAt(): ?\DateTimeImmutable;
 
     /**
      * Set the timestamp of when the authentication code will expire.
