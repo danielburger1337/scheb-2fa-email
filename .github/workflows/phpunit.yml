@@ -11,9 +11,24 @@ jobs:
         strategy:
             matrix:
                 operating-system: [ubuntu-latest]
-                php-versions: ["8.2", "8.3"]
+                include:
+                    - php-version: "8.3"
+                      dependency-version: "--prefer-lowest"
+                      symfony-version: "6.4"
 
-        name: PHPUnit with ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+                    - php-version: "8.2"
+                      dependency-version: "--prefer-lowest"
+                      symfony-version: "7.x"
+
+                    - php-version: "8.2"
+                      dependency-version: ""
+                      symfony-version: "6.4"
+
+                    - php-version: "8.3"
+                      dependency-version: ""
+                      symfony-version: "7.x"
+
+        name: PHPUnit with ${{ matrix.php-version }} (Symfony ${{ matrix.symfony-version }})
 
         steps:
             - uses: actions/checkout@v3
@@ -21,23 +36,10 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: ${{ matrix.php-versions }}
-
-            ###> Composer ###
-            - name: Get composer cache directory
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-            - name: Cache dependencies
-              uses: actions/cache@v3
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: ${{ runner.os }}-composer-
+                  php-version: ${{ matrix.php-version }}
 
             - name: Install Composer dependencies
-              run: composer install -q --prefer-dist
-            ###< Composer ###
+              run: composer update ${{ matrix.dependency-version }}
 
             - name: Run PHPUnit
               run: $GITHUB_WORKSPACE/vendor/bin/phpunit
