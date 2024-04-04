@@ -6,11 +6,10 @@ on:
 
 jobs:
     phpunit:
-        runs-on: ${{ matrix.operating-system }}
+        runs-on: ubuntu-latest
 
         strategy:
             matrix:
-                operating-system: [ubuntu-latest]
                 include:
                     - php-version: "8.3"
                       dependency-version: "--prefer-lowest"
