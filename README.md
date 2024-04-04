@@ -124,8 +124,8 @@ two_factor_email:
     # A custom service to manage the auth code
     # It must implement AuthCodeProviderInterface
     auth_code_provider: null
-    # This option is only used when the default `auth_code_provider` is used.
-    # A \DateInterval compatioble value that sets
+    # This option is only used when the default `auth_code_provider` is used:
+    # A \DateInterval compatible value that sets
     # how long an auth code is considered valid.
     # `null` disables expiration.
     expires_after: PT15M
@@ -135,7 +135,7 @@ two_factor_email:
     # A custom service that creates the auth code
     # It must implement AuthCodeGeneratorInterface
     code_generator: null
-    # This option is only used when the default `code_generator` is used.
+    # This option is only used when the default `code_generator` is used:
     # The length of the generated auth code
     digits: 6
 
