@@ -21,16 +21,16 @@
     ],
     "require": {
         "php": "^8.2",
-        "scheb/2fa-bundle": "^7.2",
-        "symfony/framework-bundle": "^7.0",
-        "symfony/clock": "^7.0"
+        "scheb/2fa-bundle": "^6.4 || ^7.0",
+        "symfony/framework-bundle": "^6.4 || ^7.0",
+        "symfony/clock": "^6.4 || ^7.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.23",
         "phpunit/phpunit": "^10.5",
         "phpstan/phpstan": "^1.10",
-        "symfony/mailer": "^7.0",
-        "symfony/yaml": "^7.0"
+        "symfony/mailer": "^6.4 || ^7.0",
+        "symfony/yaml": "^6.4 || ^7.0"
     },
     "autoload": {
         "psr-4": {
