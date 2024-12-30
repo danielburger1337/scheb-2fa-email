@@ -5,13 +5,13 @@ on:
     workflow_dispatch:
 
 jobs:
-    phpunit:
+    phpstan:
         runs-on: ${{ matrix.operating-system }}
 
         strategy:
             matrix:
                 operating-system: [ubuntu-latest]
-                php-versions: ["8.2"]
+                php-versions: ["8.2", "8.3", "8.4"]
 
         name: PHPStan with ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
 
@@ -39,5 +39,5 @@ jobs:
               run: composer install -q --prefer-dist
             ###< Composer ###
 
-            - name: Run PHPUnit
+            - name: Run PHPStan
               run: $GITHUB_WORKSPACE/vendor/bin/phpstan --error-format=github
