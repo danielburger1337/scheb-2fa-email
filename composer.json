@@ -28,7 +28,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.66",
         "phpunit/phpunit": "^10.5",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^1.12",
         "symfony/mailer": "^6.4 || ^7.0",
         "symfony/yaml": "^6.4 || ^7.0"
     },
