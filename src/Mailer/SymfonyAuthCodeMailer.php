@@ -9,7 +9,7 @@ final class SymfonyAuthCodeMailer implements AuthCodeMailerInterface
 {
     public function __construct(
         private readonly MailerInterface $mailer,
-        private readonly AuthCodeEmailGeneratorInterface $authCodeEmailGenerator
+        private readonly AuthCodeEmailGeneratorInterface $authCodeEmailGenerator,
     ) {
     }
 

@@ -14,7 +14,7 @@ final class TwoFactorEmailProvider implements TwoFactorProviderInterface
     public function __construct(
         private readonly AuthCodeProviderInterface $authCodeProvider,
         private readonly TwoFactorFormRendererInterface $formRenderer,
-        private readonly ClockInterface $clock
+        private readonly ClockInterface $clock,
     ) {
     }
 

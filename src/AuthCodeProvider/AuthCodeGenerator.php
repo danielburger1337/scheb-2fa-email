@@ -7,7 +7,7 @@ use danielburger1337\SchebTwoFactorBundle\Model\TwoFactorEmailInterface;
 final class AuthCodeGenerator implements AuthCodeGeneratorInterface
 {
     public function __construct(
-        private readonly int $digits
+        private readonly int $digits,
     ) {
     }
 

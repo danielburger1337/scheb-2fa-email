@@ -8,7 +8,7 @@ use danielburger1337\SchebTwoFactorBundle\Model\TwoFactorEmailInterface;
 class MockAuthCodeGenerator implements AuthCodeGeneratorInterface
 {
     public function __construct(
-        private readonly string $authCode
+        private readonly string $authCode,
     ) {
     }
 
