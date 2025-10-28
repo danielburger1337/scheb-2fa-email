@@ -79,7 +79,7 @@ class ResendEmailAuthCodeEventListener
     ) {
     }
 
-    public function __invoke(RequestEvent $request): void
+    public function __invoke(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
