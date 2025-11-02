@@ -26,8 +26,8 @@
         "symfony/clock": "^6.4 || ^7.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.66",
-        "phpunit/phpunit": "^10.5",
+        "friendsofphp/php-cs-fixer": "^3.89.1",
+        "phpunit/phpunit": "^12.4.2",
         "phpstan/phpstan": "^2.1.31",
         "symfony/mailer": "^6.4 || ^7.0",
         "symfony/yaml": "^6.4 || ^7.0"
