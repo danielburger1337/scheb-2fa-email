@@ -11,31 +11,23 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - php-version: "8.2"
-                      dependency-version: "--prefer-lowest"
-                      symfony-version: "6.4"
+                    - php_version: "8.4"
+                      dependency_version: "--prefer-lowest"
+                      symfony_version: "7.4"
 
-                    - php-version: "8.3"
-                      dependency-version: "--prefer-lowest"
-                      symfony-version: "6.4"
+                    - php_version: "8.5"
+                      dependency_version: "--prefer-lowest"
+                      symfony_version: "7.4"
 
-                    - php-version: "8.4"
-                      dependency-version: "--prefer-lowest"
-                      symfony-version: "6.4"
+                    - php_version: "8.4"
+                      dependency_version: ""
+                      symfony_version: "8.x"
 
-                    - php-version: "8.2"
-                      dependency-version: ""
-                      symfony-version: "7.x"
+                    - php_version: "8.5"
+                      dependency_version: ""
+                      symfony_version: "8.x"
 
-                    - php-version: "8.3"
-                      dependency-version: ""
-                      symfony-version: "7.x"
-
-                    - php-version: "8.4"
-                      dependency-version: ""
-                      symfony-version: "7.x"
-
-        name: PHPUnit with PHP ${{ matrix.php-version }} (Symfony ${{ matrix.symfony-version }})
+        name: PHPUnit with PHP ${{ matrix.php_version }} (Symfony ${{ matrix.symfony_version }})
 
         steps:
             - uses: actions/checkout@v4
@@ -43,10 +35,10 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: ${{ matrix.php-version }}
+                  php-version: ${{ matrix.php_version }}
 
             - name: Install Composer dependencies
-              run: composer update ${{ matrix.dependency-version }}
+              run: composer update --no-ansi --no-interaction ${{ matrix.dependency_version }}
 
             - name: Run PHPUnit
               run: $GITHUB_WORKSPACE/vendor/bin/phpunit
