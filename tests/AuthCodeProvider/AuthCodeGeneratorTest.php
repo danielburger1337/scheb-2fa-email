@@ -9,12 +9,12 @@ use PHPUnit\Framework\TestCase;
 
 class AuthCodeGeneratorTest extends TestCase
 {
-    private const DIGITS = 6;
+    private const int DIGITS = 6;
 
     #[Test]
     public function testAuthCodeExpectedLength(): void
     {
-        $user = $this->createMock(TwoFactorEmailInterface::class);
+        $user = $this->createStub(TwoFactorEmailInterface::class);
 
         $authCodeGenerator = new AuthCodeGenerator(self::DIGITS);
         $authCode = $authCodeGenerator->generateAuthCode($user);
@@ -25,7 +25,7 @@ class AuthCodeGeneratorTest extends TestCase
     #[Test]
     public function testAuthCodeIsRandom(): void
     {
-        $user = $this->createMock(TwoFactorEmailInterface::class);
+        $user = $this->createStub(TwoFactorEmailInterface::class);
 
         $authCodeGenerator = new AuthCodeGenerator(self::DIGITS);
         $value1 = $authCodeGenerator->generateAuthCode($user);
