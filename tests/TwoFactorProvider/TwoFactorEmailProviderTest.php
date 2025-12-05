@@ -3,10 +3,12 @@
 namespace danielburger1337\SchebTwoFactorBundle\Tests\TwoFactorProvider;
 
 use danielburger1337\SchebTwoFactorBundle\AuthCodeProvider\AuthCodeProviderInterface;
+use danielburger1337\SchebTwoFactorBundle\Model\TwoFactorEmailInterface;
 use danielburger1337\SchebTwoFactorBundle\Tests\MockTwoFactorEmailInterface;
 use danielburger1337\SchebTwoFactorBundle\TwoFactorProvider\TwoFactorEmailProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContextInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface;
@@ -15,23 +17,18 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class TwoFactorEmailProviderTest extends TestCase
 {
-    private const VALID_AUTH_CODE = '123456';
-    private const VALID_AUTH_CODE_WITH_SPACES = '123 456';
+    private const string VALID_AUTH_CODE = '123456';
+    private const string VALID_AUTH_CODE_WITH_SPACES = '123 456';
 
-    private const INVALID_AUTH_CODE = '654321';
+    private const string INVALID_AUTH_CODE = '654321';
 
-    private MockObject|AuthCodeProviderInterface $authCodeProvider;
-    private MockObject|TwoFactorFormRendererInterface $formRenderer;
+    private Stub|TwoFactorFormRendererInterface $formRenderer;
     private MockClock $clock;
-    private TwoFactorEmailProvider $provider;
 
     protected function setUp(): void
     {
-        $this->authCodeProvider = $this->createMock(AuthCodeProviderInterface::class);
-        $this->formRenderer = $this->createMock(TwoFactorFormRendererInterface::class);
         $this->clock = new MockClock();
-
-        $this->provider = new TwoFactorEmailProvider($this->authCodeProvider, $this->formRenderer, $this->clock);
+        $this->formRenderer = $this->createStub(TwoFactorFormRendererInterface::class);
     }
 
     #[Test]
@@ -40,7 +37,7 @@ class TwoFactorEmailProviderTest extends TestCase
         $user = $this->createUser(true);
         $context = $this->createAuthenticationContext($user);
 
-        $this->assertTrue($this->provider->beginAuthentication($context));
+        $this->assertTrue($this->createProvider()->beginAuthentication($context));
     }
 
     #[Test]
@@ -49,149 +46,153 @@ class TwoFactorEmailProviderTest extends TestCase
         $user = $this->createUser(false);
         $context = $this->createAuthenticationContext($user);
 
-        $this->assertFalse($this->provider->beginAuthentication($context));
+        $this->assertFalse($this->createProvider()->beginAuthentication($context));
     }
 
     #[Test]
     public function beginAuthenticationInterfaceNotImplementedReturnFalse(): void
     {
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createStub(UserInterface::class);
         $context = $this->createAuthenticationContext($user);
 
-        $this->assertFalse($this->provider->beginAuthentication($context));
+        $this->assertFalse($this->createProvider()->beginAuthentication($context));
     }
 
     #[Test]
     public function prepareAuthenticationInterfaceImplementedCreatesAuthCode(): void
     {
-        $user = $this->createUser(true);
+        $user = $this->createStub(TwoFactorEmailInterface::class);
 
-        $this->authCodeProvider
-            ->expects($this->once())
+        $authCodeProvider = $this->createMock(AuthCodeProviderInterface::class);
+        $authCodeProvider->expects($this->once())
             ->method('createAuthCode')
-            ->with($user)
-        ;
+            ->with($user);
 
-        $this->provider->prepareAuthentication($user);
+        $this->createProvider($authCodeProvider)->prepareAuthentication($user);
     }
 
     #[Test]
     public function prepareAuthenticationInterfaceNotImplementedDoesNothing(): void
     {
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createStub(UserInterface::class);
 
-        $this->authCodeProvider
-            ->expects($this->never())
-            ->method('createAuthCode')
-        ;
+        $authCodeProvider = $this->createMock(AuthCodeProviderInterface::class);
+        $authCodeProvider->expects($this->never())
+            ->method('createAuthCode');
 
-        $this->provider->prepareAuthentication($user);
+        $this->createProvider($authCodeProvider)->prepareAuthentication($user);
     }
 
     #[Test]
     public function validateAuthenticationCodeNoTwoFactorUserReturnFalse(): void
     {
-        $user = $this->createMock(UserInterface::class);
+        $user = $this->createStub(UserInterface::class);
 
-        $this->assertFalse($this->provider->validateAuthenticationCode($user, 'foo bar'));
+        $this->assertFalse($this->createProvider()->validateAuthenticationCode($user, 'foo bar'));
     }
 
     #[Test]
     public function validateAuthenticationCodeValidCodeReturnTrue(): void
     {
         $user = $this->createUser();
-        $user->expects($this->once())
-            ->method('getEmailAuthCodeExpiresAt')
-            ->willReturn(null)
-        ;
+        $user->expects($this->atLeastOnce())
+            ->method('getEmailAuthCode')
+            ->willReturn(self::VALID_AUTH_CODE);
 
-        $this->assertTrue($this->provider->validateAuthenticationCode($user, self::VALID_AUTH_CODE));
+        $user->expects($this->atLeastOnce())
+            ->method('getEmailAuthCodeExpiresAt')
+            ->willReturn(null);
+
+        $this->assertTrue($this->createProvider()->validateAuthenticationCode($user, self::VALID_AUTH_CODE));
     }
 
     #[Test]
     public function validateAuthenticationCodeValidCodeWithSpacesReturnTrue(): void
     {
         $user = $this->createUser();
-        $user->expects($this->once())
-            ->method('getEmailAuthCodeExpiresAt')
-            ->willReturn(null)
-        ;
+        $user->expects($this->atLeastOnce())
+            ->method('getEmailAuthCode')
+            ->willReturn(self::VALID_AUTH_CODE);
 
-        $this->assertTrue($this->provider->validateAuthenticationCode($user, self::VALID_AUTH_CODE_WITH_SPACES));
+        $user->expects($this->atLeastOnce())
+            ->method('getEmailAuthCodeExpiresAt')
+            ->willReturn(null);
+
+        $this->assertTrue($this->createProvider()->validateAuthenticationCode($user, self::VALID_AUTH_CODE_WITH_SPACES));
     }
 
     #[Test]
     public function validateAuthenticationCodeInvalidCodeGivenReturnFalse(): void
     {
         $user = $this->createUser();
-        $user->expects($this->once())
+        $user->expects($this->atLeastOnce())
             ->method('getEmailAuthCodeExpiresAt')
-            ->willReturn(null)
-        ;
+            ->willReturn(null);
 
-        $this->assertFalse($this->provider->validateAuthenticationCode($user, self::INVALID_AUTH_CODE));
+        $this->assertFalse($this->createProvider()->validateAuthenticationCode($user, self::INVALID_AUTH_CODE));
     }
 
     #[Test]
     public function validateAuthenticationCodeValidExpiredCodeReturnFalseAndCreateNewAuthCode(): void
     {
         $user = $this->createUser();
-        $user->expects($this->once())
+        $user->expects($this->atLeastOnce())
             ->method('getEmailAuthCodeExpiresAt')
-            ->willReturn($this->clock->now())
-        ;
+            ->willReturn($this->clock->now());
 
-        $this->authCodeProvider->expects($this->once())
+        $authCodeProvider = $this->createMock(AuthCodeProviderInterface::class);
+        $authCodeProvider->expects($this->once())
             ->method('createAuthCode')
-            ->with($user)
-        ;
+            ->with($user);
 
-        $this->assertFalse($this->provider->validateAuthenticationCode($user, self::VALID_AUTH_CODE));
+        $this->assertFalse($this->createProvider($authCodeProvider)->validateAuthenticationCode($user, self::VALID_AUTH_CODE));
     }
 
     #[Test]
     public function validateAuthenticationCodeInvalidExpiredCodeReturnFalseAndCreateNewAuthCode(): void
     {
         $user = $this->createUser();
-        $user->expects($this->once())
+        $user->expects($this->atLeastOnce())
             ->method('getEmailAuthCodeExpiresAt')
             ->willReturn($this->clock->now())
         ;
 
-        $this->authCodeProvider->expects($this->once())
+        $authCodeProvider = $this->createMock(AuthCodeProviderInterface::class);
+        $authCodeProvider->expects($this->once())
             ->method('createAuthCode')
-            ->with($user)
-        ;
+            ->with($user);
 
-        $this->assertFalse($this->provider->validateAuthenticationCode($user, self::INVALID_AUTH_CODE));
+        $this->assertFalse($this->createProvider($authCodeProvider)->validateAuthenticationCode($user, self::INVALID_AUTH_CODE));
     }
 
-    private function createUser(bool $emailAuthEnabled = true): MockObject|MockTwoFactorEmailInterface
+    private function createUser(?bool $emailAuthEnabled = null): MockObject|MockTwoFactorEmailInterface
     {
         $user = $this->createMock(MockTwoFactorEmailInterface::class);
-        $user
-            ->expects($this->any())
-            ->method('isEmailAuthEnabled')
-            ->willReturn($emailAuthEnabled)
-        ;
-        $user
-            ->expects($this->any())
-            ->method('getEmailAuthCode')
-            ->willReturn(self::VALID_AUTH_CODE)
-        ;
+        if (null !== $emailAuthEnabled) {
+            $user->expects($this->atLeastOnce())
+                ->method('isEmailAuthEnabled')
+                ->willReturn($emailAuthEnabled);
+        }
 
         return $user;
     }
 
-    private function createAuthenticationContext(?UserInterface $user = null): MockObject|AuthenticationContextInterface
+    private function createAuthenticationContext(UserInterface $user): MockObject|AuthenticationContextInterface
     {
         $authContext = $this->createMock(AuthenticationContextInterface::class);
-        $authContext
-            ->expects($this->any())
+        $authContext->expects($this->atLeastOnce())
             ->method('getUser')
-            ->willReturn($user ?: $this->createUser())
-        ;
+            ->willReturn($user);
 
         return $authContext;
+    }
+
+    private function createProvider(?MockObject $authCodeProvider = null): TwoFactorEmailProvider
+    {
+        return new TwoFactorEmailProvider(
+            $authCodeProvider ?? $this->createStub(AuthCodeProviderInterface::class),
+            $this->formRenderer,
+            $this->clock
+        );
     }
 }
