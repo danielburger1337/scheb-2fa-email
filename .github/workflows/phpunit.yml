@@ -11,25 +11,9 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - php-version: "8.2"
-                      dependency-version: "--prefer-lowest"
-                      symfony-version: "6.4"
-
-                    - php-version: "8.3"
-                      dependency-version: "--prefer-lowest"
-                      symfony-version: "6.4"
-
                     - php-version: "8.4"
                       dependency-version: "--prefer-lowest"
                       symfony-version: "6.4"
-
-                    - php-version: "8.2"
-                      dependency-version: ""
-                      symfony-version: "7.x"
-
-                    - php-version: "8.3"
-                      dependency-version: ""
-                      symfony-version: "7.x"
 
                     - php-version: "8.4"
                       dependency-version: ""
