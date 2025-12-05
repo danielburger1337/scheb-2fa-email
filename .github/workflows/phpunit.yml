@@ -13,11 +13,11 @@ jobs:
                 include:
                     - php-version: "8.4"
                       dependency-version: "--prefer-lowest"
-                      symfony-version: "6.4"
+                      symfony-version: "7.4"
 
                     - php-version: "8.4"
                       dependency-version: ""
-                      symfony-version: "7.x"
+                      symfony-version: "8.x"
 
         name: PHPUnit with PHP ${{ matrix.php-version }} (Symfony ${{ matrix.symfony-version }})
 
