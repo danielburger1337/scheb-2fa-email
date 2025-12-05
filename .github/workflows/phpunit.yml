@@ -38,7 +38,7 @@ jobs:
                   php-version: ${{ matrix.php_version }}
 
             - name: Install Composer dependencies
-              run: composer update ${{ matrix.dependency_version }}
+              run: composer update --no-ansi --no-interaction ${{ matrix.dependency_version }}
 
             - name: Run PHPUnit
               run: $GITHUB_WORKSPACE/vendor/bin/phpunit
