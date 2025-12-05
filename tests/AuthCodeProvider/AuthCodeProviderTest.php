@@ -6,30 +6,21 @@ use danielburger1337\SchebTwoFactorBundle\AuthCodeProvider\AuthCodeProvider;
 use danielburger1337\SchebTwoFactorBundle\Mailer\AuthCodeMailerInterface;
 use danielburger1337\SchebTwoFactorBundle\Model\TwoFactorEmailInterface;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Scheb\TwoFactorBundle\Model\PersisterInterface;
 use Symfony\Component\Clock\MockClock;
 
 class AuthCodeProviderTest extends TestCase
 {
-    private const AUTH_CODE = '123456';
+    private const string AUTH_CODE = '123456';
 
     private MockAuthCodeGenerator $authCodeGenerator;
-    private MockObject|PersisterInterface $persister;
-    private MockObject|AuthCodeMailerInterface $mailer;
     private MockClock $clock;
-
-    private AuthCodeProvider $authCodeProvider;
 
     protected function setUp(): void
     {
-        $this->persister = $this->createMock(PersisterInterface::class);
-        $this->mailer = $this->createMock(AuthCodeMailerInterface::class);
         $this->clock = new MockClock();
         $this->authCodeGenerator = new MockAuthCodeGenerator(self::AUTH_CODE);
-
-        $this->authCodeProvider = new AuthCodeProvider($this->persister, $this->authCodeGenerator, $this->mailer, $this->clock);
     }
 
     #[Test]
@@ -41,35 +32,54 @@ class AuthCodeProviderTest extends TestCase
             ->with(self::AUTH_CODE)
         ;
 
-        $this->authCodeProvider->createAuthCode($user);
+        $authCodeProvider = new AuthCodeProvider(
+            $this->createStub(PersisterInterface::class),
+            $this->authCodeGenerator,
+            $this->createStub(AuthCodeMailerInterface::class),
+            $this->clock
+        );
+
+        $authCodeProvider->createAuthCode($user);
     }
 
     #[Test]
     public function testThatAuthCodeIsPersisted(): void
     {
-        $user = $this->createMock(TwoFactorEmailInterface::class);
+        $user = $this->createStub(TwoFactorEmailInterface::class);
 
-        $this->persister
-            ->expects($this->once())
+        $persister = $this->createMock(PersisterInterface::class);
+        $persister->expects($this->once())
             ->method('persist')
-            ->with($user)
-        ;
+            ->with($user);
 
-        $this->authCodeProvider->createAuthCode($user);
+        $authCodeProvider = new AuthCodeProvider(
+            $persister,
+            $this->authCodeGenerator,
+            $this->createStub(AuthCodeMailerInterface::class),
+            $this->clock
+        );
+
+        $authCodeProvider->createAuthCode($user);
     }
 
     #[Test]
     public function testThatAuthCodeIsSendViaMail(): void
     {
-        $user = $this->createMock(TwoFactorEmailInterface::class);
+        $user = $this->createStub(TwoFactorEmailInterface::class);
 
-        $this->mailer
-            ->expects($this->once())
+        $mailer = $this->createMock(AuthCodeMailerInterface::class);
+        $mailer->expects($this->once())
             ->method('sendAuthCode')
-            ->with($user)
-        ;
+            ->with($user);
 
-        $this->authCodeProvider->createAuthCode($user);
+        $authCodeProvider = new AuthCodeProvider(
+            $this->createStub(PersisterInterface::class),
+            $this->authCodeGenerator,
+            $mailer,
+            $this->clock
+        );
+
+        $authCodeProvider->createAuthCode($user);
     }
 
     #[Test]
@@ -80,7 +90,14 @@ class AuthCodeProviderTest extends TestCase
             ->method('setEmailAuthCodeExpiresAt')
         ;
 
-        $this->authCodeProvider->createAuthCode($user);
+        $authCodeProvider = new AuthCodeProvider(
+            $this->createStub(PersisterInterface::class),
+            $this->authCodeGenerator,
+            $this->createStub(AuthCodeMailerInterface::class),
+            $this->clock
+        );
+
+        $authCodeProvider->createAuthCode($user);
     }
 
     #[Test]
@@ -92,7 +109,14 @@ class AuthCodeProviderTest extends TestCase
             ->with($this->clock->now()->add(new \DateInterval('PT5M')))
         ;
 
-        $authCodeProvider = new AuthCodeProvider($this->persister, $this->authCodeGenerator, $this->mailer, $this->clock, 'PT5M');
+        $authCodeProvider = new AuthCodeProvider(
+            $this->createStub(PersisterInterface::class),
+            $this->authCodeGenerator,
+            $this->createStub(AuthCodeMailerInterface::class),
+            $this->clock,
+            'PT5M'
+        );
+
         $authCodeProvider->createAuthCode($user);
     }
 }
