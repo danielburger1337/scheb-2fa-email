@@ -25,6 +25,11 @@ final class TwoFactorEmailProvider implements TwoFactorProviderInterface
         return $user instanceof TwoFactorEmailInterface && $user->isEmailAuthEnabled();
     }
 
+    public function needsPreparation(): bool
+    {
+        return true;
+    }
+
     public function prepareAuthentication(object $user): void
     {
         if (!$user instanceof TwoFactorEmailInterface) {
